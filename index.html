@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Source+Sans+3:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #111111;
+      --surface: #171717;
+      --border:  #252525;
+      --text:    #ddd8d0;
+      --muted:   #7a7570;
+      --dim:     #3f3c38;
+      --accent:  #d4c5a9;   /* warm parchment — subtle, not flashy */
+      --font-ser: 'EB Garamond', Georgia, serif;
+      --font-san: 'Source Sans 3', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ser);
+      font-size: 18px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Noise */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 0 36px;
+    }
+
+    section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(17,17,17,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 52px;
+    }
+
+    .nav-name {
+      font-family: var(--font-ser);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-san);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 100px 0 80px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-ser);
+      font-size: clamp(40px, 7vw, 62px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .hero-title-line {
+      font-family: var(--font-san);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 40px;
+    }
+
+    .hero-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    .hero-bio {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 540px;
+      margin-bottom: 40px;
+    }
+
+    .hero-bio em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .link-plain {
+      font-family: var(--font-san);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--dim);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .link-plain:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
+
+    .link-plain.primary {
+      color: var(--accent);
+      border-color: var(--dim);
+    }
+
+    .link-plain.primary:hover { border-color: var(--accent); }
+
+    /* ── SECTION HEADERS ── */
+    .section-head { margin-bottom: 48px; }
+
+    .section-num {
+      font-family: var(--font-san);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .section-head h2 {
+      font-family: var(--font-ser);
+      font-size: 28px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    /* ── PROJECTS ──
+       ✏️ To add a project: copy one <article class="project"> and edit it. */
+    .projects { display: flex; flex-direction: column; }
+
+    .project {
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project:first-child { padding-top: 0; }
+    .project:last-child  { border-bottom: none; }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .project-title {
+      font-family: var(--font-ser);
+      font-size: 21px;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .project-year {
+      font-family: var(--font-san);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--dim);
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .project-desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tag {
+      font-family: var(--font-san);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 1px;
+    }
+
+    .project-link {
+      font-family: var(--font-san);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--dim);
+      padding-bottom: 1px;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── EXPERIENCE ──
+       ✏️ To add: copy one <div class="exp"> and edit it. */
+    .exp-list { display: flex; flex-direction: column; gap: 40px; }
+
+    .exp { display: grid; grid-template-columns: 120px 1fr; gap: 0 32px; }
+
+    @media (max-width: 480px) {
+      .exp { grid-template-columns: 1fr; gap: 4px 0; }
+    }
+
+    .exp-date {
+      font-family: var(--font-san);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--dim);
+      letter-spacing: 0.06em;
+      padding-top: 4px;
+    }
+
+    .exp-role {
+      font-family: var(--font-ser);
+      font-size: 19px;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .exp-org {
+      font-family: var(--font-san);
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .exp-desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* ── INTERESTS ── */
+    .interests-body {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.85;
+      max-width: 560px;
+    }
+
+    .interests-body em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* ── SKILLS ──
+       ✏️ Add/remove items freely. */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 32px 24px;
+    }
+
+    .skill-group h4 {
+      font-family: var(--font-san);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-group ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+
+    .skill-group li {
+      font-family: var(--font-san);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+    }
+
+    /* ── CONTACT ── */
+    .contact-body {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.85;
+      max-width: 460px;
+      margin-bottom: 36px;
+    }
+
+    .contact-links { display: flex; gap: 28px; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      font-family: var(--font-san);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--dim);
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <span class="nav-name">Your Name</span>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#interests">Interests</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <!-- ✏️ Your name -->
+      <h1>Your Name</h1>
+      <!-- ✏️ Your degree line -->
+      <p class="hero-title-line">B.S. Data Science, Minor in Philosophy &nbsp;·&nbsp; University of Michigan &nbsp;·&nbsp; 2027</p>
+      <hr class="hero-rule" />
+      <!-- ✏️ Bio — write it like an academic bio, not a startup pitch -->
+      <p class="hero-bio">
+        I study data science and philosophy at the University of Michigan,
+        with a focus on natural language processing and applied machine learning.
+        I am interested in what it means to extract meaning from text at scale —
+        and in the <em>limits</em> of that project as much as its possibilities.
+      </p>
+      <div class="hero-links">
+        <!-- ✏️ Replace # with your real URLs -->
+        <a href="#" class="link-plain primary">GitHub ↗</a>
+        <a href="#" class="link-plain">LinkedIn ↗</a>
+        <a href="#" class="link-plain">Résumé ↗</a>
+        <a href="mailto:yourname@umich.edu" class="link-plain">yourname@umich.edu</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-num">§ 1</span>
+          <h2>Projects</h2>
+        </div>
+        <div class="projects">
+
+          <!-- ✏️ PROJECT 1 -->
+          <article class="project">
+            <div class="project-top">
+              <h3 class="project-title">EarningsLens</h3>
+              <span class="project-year">2026</span>
+            </div>
+            <p class="project-desc">
+              An NLP dashboard analyzing S&amp;P 500 earnings call transcripts
+              using FinBERT sentiment analysis. Surfaces tone patterns across
+              prepared remarks and analyst Q&amp;A sections, correlating
+              sentiment scores with post-earnings price movement across
+              100+ companies over two years.
+            </p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="tag">Python</span>
+                <span class="tag">FinBERT</span>
+                <span class="tag">XGBoost</span>
+                <span class="tag">Streamlit</span>
+                <span class="tag">NLP</span>
+              </div>
+              <a href="#" class="project-link">View project ↗</a>
+            </div>
+          </article>
+
+          <!-- ✏️ PROJECT 2 — copy this block to add more -->
+          <article class="project">
+            <div class="project-top">
+              <h3 class="project-title">Project Two</h3>
+              <span class="project-year">2026</span>
+            </div>
+            <p class="project-desc">
+              A short description of what this project does and what is
+              interesting about the approach. Two or three sentences is enough.
+            </p>
+            <div class="project-footer">
+              <div class="project-tags">
+                <span class="tag">Python</span>
+                <span class="tag">SQL</span>
+              </div>
+              <a href="#" class="project-link">GitHub ↗</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-num">§ 2</span>
+          <h2>Experience</h2>
+        </div>
+        <div class="exp-list">
+
+          <!-- ✏️ EXPERIENCE 1 -->
+          <div class="exp">
+            <span class="exp-date">Summer 2026</span>
+            <div>
+              <p class="exp-role">Intelligence &amp; Technology Intern</p>
+              <p class="exp-org">HII &nbsp;·&nbsp; Honolulu, HI</p>
+              <p class="exp-desc">
+                Data work in a defense and intelligence environment.
+                Fill in specifics after the internship — tools used,
+                problems solved, scale of work.
+              </p>
+            </div>
+          </div>
+
+          <!-- ✏️ EXPERIENCE 2 -->
+          <div class="exp">
+            <span class="exp-date">2024</span>
+            <div>
+              <p class="exp-role">QA Analyst</p>
+              <p class="exp-org">Sustainability AI Startup &nbsp;·&nbsp; via Consulting Club</p>
+              <p class="exp-desc">
+                Validated model outputs and identified edge cases on a
+                production AI system. Contributed to data quality
+                standards for an early-stage machine learning product.
+              </p>
+            </div>
+          </div>
+
+          <!-- ✏️ EXPERIENCE 3 -->
+          <div class="exp">
+            <span class="exp-date">2024</span>
+            <div>
+              <p class="exp-role">Research Intern</p>
+              <p class="exp-org">Automotive Futures Research</p>
+              <p class="exp-desc">
+                Research and data analysis in an automotive futures context.
+                Add specifics about what you built or analyzed here.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERESTS — where the philosophy minor lives naturally -->
+    <section id="interests">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-num">§ 3</span>
+          <h2>Interests</h2>
+        </div>
+        <!-- ✏️ Write this in your own voice. It should sound like you, not a cover letter. -->
+        <p class="interests-body">
+          My technical work sits alongside a minor in philosophy, which shapes
+          how I think about data and inference. I am drawn to questions about
+          <em>language and meaning</em> — what it means to model text at scale,
+          what gets lost in the process, and where quantitative approaches
+          reach their limits. Outside of coursework I read in analytic
+          philosophy of mind and political philosophy, and follow the
+          literature on interpretability in machine learning as a natural
+          meeting point between the two fields.
+        </p>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-num">§ 4</span>
+          <h2>Technical Skills</h2>
+        </div>
+        <div class="skills-grid">
+
+          <div class="skill-group">
+            <h4>Languages</h4>
+            <ul>
+              <li>Python</li>
+              <li>SQL</li>
+              <li>R</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h4>ML / Data</h4>
+            <ul>
+              <li>scikit-learn</li>
+              <li>XGBoost</li>
+              <li>HuggingFace</li>
+              <li>pandas</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h4>Tools</h4>
+            <ul>
+              <li>Streamlit</li>
+              <li>Git</li>
+              <li>Jupyter</li>
+              <li>SQLite</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h4>Concepts</h4>
+            <ul>
+              <li>NLP</li>
+              <li>Classification</li>
+              <li>A/B Testing</li>
+              <li>Visualization</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-num">§ 5</span>
+          <h2>Contact</h2>
+        </div>
+        <p class="contact-body">
+          Open to internship opportunities for Summer 2027.
+          I am particularly interested in roles at the intersection of
+          language, data, and applied research.
+          Best reached by email.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:yourname@umich.edu" class="link-plain primary">yourname@umich.edu</a>
+          <a href="#" class="link-plain">LinkedIn ↗</a>
+          <a href="#" class="link-plain">GitHub ↗</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Your Name &nbsp;·&nbsp; University of Michigan &nbsp;·&nbsp; 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>
